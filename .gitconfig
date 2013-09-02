@@ -5,7 +5,7 @@
 	editor = vim
 	autocrlf = input
 	safecrlf = true
-	excludesfile = /Users/David_Fergemann/.gitignore_global
+
 [alias]
 	co = checkout
 	ci = commmit
