@@ -29,7 +29,7 @@ http://www.emacswiki.org/emacs/BackwardDeleteWord
 
 (defun whitespace-cleanup-all ()
   (interactive)
-  (setq indent-tab-mode nil)
+  (setq indent-tabs-mode nil)
   (whitespace-cleanup))
 
 (defun whitespace-clean-and-compile ()

@@ -16,6 +16,7 @@
 (require 'whitespace)
 (require 'dired-x)
 (require 'compile)
+
 (ido-mode t)
 (menu-bar-mode -1)
 (normal-erase-is-backspace-mode 0)
@@ -27,6 +28,8 @@
 (setq show-trailing-whitespace t)
 (setq suggest-key-bindings t)
 (setq vc-follow-symlinks t)
+(setq-default tab-width 4)
+(setq-default indent-tabs-mode nil)
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
@@ -75,3 +78,9 @@
 (require 'jade-mode)    
 (add-to-list 'auto-mode-alist '("\\.styl$" . sws-mode))
 (add-to-list 'auto-mode-alist '("\\.jade$" . jade-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
+
+(setq package-archives '(("gnu" . "http://elpa.gnu.org/packages/")
+                         ("marmalade" . "http://marmalade-repo.org/packages/")
+                         ("melpa" . "http://melpa.milkbox.net/packages/")))

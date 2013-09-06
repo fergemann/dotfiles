@@ -3,10 +3,17 @@
 ;; -------------------------------
 
 (require 'js-comint)
-(defun whitespace-clean-and-compile ()
+
+(defun compile-without-clean ()
   (interactive)
-  (whitespace-cleanup-all)
   (compile compile-command))
+
+(defun remove-indentation-spaces ()
+  "remove TAB-WIDTH spaces from the beginning of this line"
+  (interactive)
+  (if (save-excursion (re-search-backward "[^ \t]" (line-beginning-position) t))
+      (delete-backward-char 1)
+    (indent-rigidly (line-beginning-position) (line-end-position) (- tab-width))))
 
 ;; Configure jshint for JS style checking.
 ;;   - Install: $ npm install -g jshint
@@ -22,7 +29,7 @@
 (setq compilation-error-regexp-alist
       (cons 'jshint-cli compilation-error-regexp-alist))
 
-(add-hook 'js-mode-hook '(lambda ()
+(add-hook 'js2-mode-hook '(lambda ()
                            (local-set-key "\C-x\C-e" 'eval-last-sexp)
                            (local-set-key "\C-cb" 'js-send-buffer)
                            (local-set-key "\C-c\C-b" 'js-send-buffer-and-go)
@@ -30,10 +37,12 @@
                            (local-set-key "\C-c!" 'run-js)
                            (local-set-key "\C-c\C-r" 'js-send-region)
                            (local-set-key "\C-c\C-j" 'js-send-line)
+                           (local-set-key (kbd "DEL") 'remove-indentation-spaces)
                            (set (make-local-variable 'compile-command) 
                                 (let ((file buffer-file-name)) (concat jshint-cli file)))
                            (set (make-local-variable 'compilation-read-command) nil)
-                           (local-set-key "\C-c\C-u" 'whitespace-clean-and-compile)
+                           (local-set-key "\C-c\C-u" 'compile-without-clean)
+						   (linum-on)
                            ))
 
 (defun node-repl-comint-preoutput-filter (output)
@@ -74,6 +83,7 @@
     output
   )
 )
+
 
 (add-hook 'comint-preoutput-filter-functions 'node-repl-comint-preoutput-filter)
 (add-hook 'comint-output-filter-functions 'node-repl-comint-preoutput-filter)
